@@ -12,7 +12,7 @@ const SKIP_DIRS = new Set(['node_modules', 'dist', '.git', '.claude'])
 // The only files allowed to mention these words: the validator that detects them, and its tests.
 const ALLOW_WORDS = new Set(['src/lib/supabaseConfig.ts', 'src/lib/supabaseConfig.test.ts', 'src/lib/supabase.test.ts', 'src/test/noSecrets.test.ts', 'tools/check-live-setup/checks.mjs', 'tools/check-live-setup/checks.test.mjs'])
 // The bookings table grant names the database role itself (a role name, not a key), so that one word is allowed in these two files only.
-const ROLE_NAME_FILES = new Set(['supabase/bookings/0700_bookings.sql', 'src/test/bookingsSql.test.ts'])
+const ROLE_NAME_FILES = new Set(['supabase/bookings/0700_bookings.sql', 'src/test/bookingsSql.test.ts', 'supabase/insight/0800_insight_leads.sql', 'src/test/insightSql.test.ts'])
 const TEXT_EXT = /\.(ts|tsx|js|jsx|json|md|html|css|svg|txt|sql|toml|yml|yaml|example|env)$|^\.env/i
 
 function walk(dir: string, out: string[] = []): string[] {

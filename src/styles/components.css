@@ -194,3 +194,50 @@
 .summary__total .hint { display: block; font-family: var(--font-sans); font-size: 0.85rem; }
 .booking-status__lead { display: flex; gap: var(--space-3); align-items: flex-start; margin: 0 0 var(--space-2); font-size: 1.1rem; font-weight: 600; }
 .booking-status__lead svg { flex: none; color: var(--success); margin-top: 2px; }
+
+/* ---------- Free AI reading (/free-insight) ---------- */
+.reading-form { display: grid; gap: var(--space-4); }
+.reading-form__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; position: relative; }
+.reading-form__head h2 { margin: 0; font-size: 1.6rem; }
+.field { display: grid; gap: var(--space-1); position: relative; }
+.field > span:first-child, .field-legend { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); font-family: var(--font-sans); }
+.field-legend { padding: 0; margin-bottom: var(--space-1); }
+.lang-toggle { display: inline-flex; border: 1px solid var(--line-gold); border-radius: 999px; padding: 3px; background: #fdfcf8; }
+.lang-toggle button { border: 0; background: none; font: inherit; font-weight: 700; font-size: 0.85rem; padding: 0.35rem 0.9rem; border-radius: 999px; cursor: pointer; color: var(--text-muted); }
+.lang-toggle button.is-on { background: var(--espresso); color: var(--ivory); }
+.reading-form .check { position: relative; font-size: 0.9rem; color: var(--text-muted); }
+.reading { display: grid; gap: var(--space-5); outline: none; }
+.reading > * { position: relative; }
+.reading__greeting { margin: 0; font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1.15; }
+.reading__numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+.reading__num { display: grid; justify-items: center; text-align: center; gap: 2px; padding: var(--space-3) var(--space-2); border: 1px solid var(--line-gold); border-radius: var(--radius-md, 14px); background: #fdfcf8; }
+.reading__num strong { font-size: 0.95rem; }
+.reading__num > span:last-child { font-size: 0.78rem; color: var(--text-muted); }
+.reading__digit { font-family: var(--font-display); font-size: 2.6rem; line-height: 1; color: var(--gold-ink); }
+.reading__block { display: grid; gap: var(--space-2); }
+.reading__block h3, .reading__ask h3, .reading__own h3 { margin: 0; font-size: 1.25rem; }
+.reading__block p { margin: 0; }
+.reading__block .theme-list { justify-content: flex-start; }
+.reading__points, .reading__focus { margin: 0; padding-left: 1.2rem; display: grid; gap: var(--space-1); }
+.reading__block--month { padding: var(--space-4); border-radius: var(--radius-md, 14px); background: var(--champagne-pale); }
+.reading__chips { display: grid; gap: var(--space-2); margin-top: var(--space-2); }
+.chip-q { display: flex; gap: var(--space-2); align-items: center; text-align: left; font: inherit; font-weight: 600; padding: 0.75rem 1rem; border: 1px solid var(--line-gold); border-radius: 12px; background: #fdfcf8; color: var(--espresso); cursor: pointer; }
+.chip-q:hover:not(:disabled) { border-color: var(--gold); background: #fff; }
+.chip-q:disabled { opacity: 0.55; cursor: default; }
+.turn { display: grid; gap: var(--space-2); scroll-margin-top: 90px; }
+.turn__q { margin: 0; justify-self: end; max-width: 85%; padding: 0.6rem 0.9rem; border-radius: 14px 14px 4px 14px; background: var(--espresso); color: var(--ivory); font-weight: 600; }
+.turn__a { display: grid; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-radius: 14px 14px 14px 4px; background: var(--sand); }
+.turn__a p { margin: 0; }
+.turn__a--wait { color: var(--text-muted); font-style: italic; margin: 0; }
+.turn__step { font-size: 0.95rem; }
+.reading__own { display: grid; gap: var(--space-2); }
+.reading__own .btn { justify-self: start; }
+.expert-card { display: grid; gap: var(--space-3); padding: var(--space-5); border-radius: var(--radius-lg); background: var(--espresso); color: var(--ivory); }
+.expert-card svg { color: var(--champagne); }
+.calc .expert-card h3 { margin: 0; color: var(--ivory); font-size: 1.4rem; }
+.expert-card p { margin: 0; color: var(--on-dark); }
+.expert-card .btn--ghost { color: var(--ivory); border-color: rgb(246 244 236 / 0.4); }
+.expert-card .btn--ghost:hover { background: var(--ivory); color: var(--espresso); }
+.reading__note { margin: 0; }
+.linkish { background: none; border: 0; padding: 0; font: inherit; color: var(--gold-ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+@media (max-width: 480px) { .reading__digit { font-size: 2.1rem; } .reading__num { padding: var(--space-2) 4px; } }

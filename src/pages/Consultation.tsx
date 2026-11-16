@@ -28,7 +28,7 @@ export default function Consultation() {
           <VoiceOnly />
         </div>
       </section>
-      <section className="section section--paper" aria-labelledby="prices-h">
+      <section className="section section--paper" id="prices" aria-labelledby="prices-h">
         <div className="container">
           <SectionHead split eyebrow="Prices" title={<span id="prices-h">One call, <em>clear prices</em></span>} lede="Choose one service or a package. Prices are before GST, which is added on the payment page." />
           <PriceList />

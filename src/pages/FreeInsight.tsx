@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { MoolankCalculator } from '../components/MoolankCalculator'
+import { FreeReading } from '../components/FreeReading'
 import { ButtonLink, PageHero } from '../components/ui'
 import { usePageTitle } from '../hooks/usePageTitle'
 import { loadWeekly, weeklyIsRunning } from '../lib/weekly'
@@ -13,9 +13,10 @@ export default function FreeInsight() {
     return () => { alive = false }
   }, [])
   const gets = [
-    'Your Moolank, with the working shown',
-    'Six words that sum up your number',
-    'Three points on what your number says about you',
+    'Your Moolank and Bhagyank, with the working shown',
+    'What your numbers say about you, by name',
+    'A reading for your month ahead: work, relationships and energy',
+    'Answers to two questions about your life, and one of your own',
     ...(weekly ? ['This week’s reading for your number'] : []),
   ]
   return (
@@ -23,7 +24,7 @@ export default function FreeInsight() {
       <PageHero
         eyebrow="Free insight"
         title={<>Discover your <em>Moolank</em></>}
-        lede="Your Moolank is the root number of the day you were born. Enter your date of birth to find yours and what it says about you."
+        lede="Your Moolank is the root number of the day you were born. Enter your name and date of birth for your numbers, a reading for this month, and answers to the questions on your mind."
       />
       <section className="section section--paper">
         <div className="container split split--wide-right" style={{ alignItems: 'start' }}>
@@ -39,10 +40,10 @@ export default function FreeInsight() {
               <li><span>Stop when a single digit (1–9) is left. That is your Moolank.</span></li>
             </ol>
             <p>For example: born on the 29th → <span className="example-chip">2 + 9 = 11 → 1 + 1 = 2</span></p>
-            <p>Only the day counts, not the month or the year. 11 and 22 are reduced too, to 2 and 4.</p>
+            <p>Only the day counts for your Moolank; 11 and 22 are reduced too, to 2 and 4. Your Bhagyank adds every digit of your full date of birth in the same way.</p>
             <p><ButtonLink to="/services/numerology" variant="ghost">About numerology consultations</ButtonLink></p>
           </div>
-          <MoolankCalculator />
+          <FreeReading />
         </div>
       </section>
     </>
