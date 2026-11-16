@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -70,7 +70,11 @@ describe('<FreeReading />', () => {
     await user.type(box, 'Will I marry my girlfriend despite our families?')
     await user.click(screen.getByRole('button', { name: /^ask/i }))
     expect(await screen.findByRole('heading', { name: /take this further with an expert/i })).toBeInTheDocument()
-    expect(within(screen.getByRole('region', { name: /take this further/i })).getByText('Your expert would look at the timing.')).toBeInTheDocument()
+    // every answer ends with the expert line and a Book a consultation button
+    expect(screen.getAllByText('Your expert would look at the timing.')).toHaveLength(3)
+    expect(screen.getAllByRole('link', { name: /book a consultation/i })[0]).toHaveAttribute('href', '/consultation/request?service=numerology')
+    expect(screen.queryByText(/written by ai/i)).toBeNull()
+    expect(screen.queryByText(/how your numbers were worked out/i)).toBeNull()
     expect(screen.getByRole('link', { name: /talk to an expert/i })).toHaveAttribute('href', '/consultation/request?service=numerology')
     expect(screen.getByRole('link', { name: /explore packages/i })).toHaveAttribute('href', '/consultation#prices')
     expect(screen.queryByLabelText(/what’s on your mind/i)).toBeNull()

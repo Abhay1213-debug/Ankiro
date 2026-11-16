@@ -29,14 +29,15 @@ describe('<MoolankCalculator />', () => {
     expect(screen.queryByText(/your moolank/i)).not.toBeInTheDocument()
   })
 
-  it('shows the number, themes and working for a valid date, with no astrology references', async () => {
+  it('shows the number and themes for a valid date, without explaining the calculation, and no astrology references', async () => {
     const { user, day, month, year, button } = setup()
     await user.selectOptions(day, '29')
     await user.selectOptions(month, 'March')
     await user.type(year, '1990')
     await user.click(button)
     expect(screen.getByRole('img', { name: 'Moolank 2' })).toBeInTheDocument()
-    expect(screen.getByText('29 → 2 + 9 = 11 → 1 + 1 = 2')).toBeInTheDocument()
+    expect(screen.queryByText(/how this was calculated/i)).toBeNull()
+    expect(screen.queryByText('29 → 2 + 9 = 11 → 1 + 1 = 2')).toBeNull()
     expect(screen.getByText(/born on the 2nd, 11th, 20th or 29th/i)).toBeInTheDocument()
     expect(within(screen.getByRole('list', { name: /moolank 2 keywords/i })).getAllByRole('listitem')).toHaveLength(6)
     expect(screen.getByText('Intuition')).toBeInTheDocument()

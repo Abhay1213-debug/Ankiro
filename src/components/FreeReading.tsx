@@ -109,12 +109,6 @@ export function FreeReading() {
     void ask(q, true)
   }
 
-  function startOver() {
-    setResult(undefined)
-    setTurns([])
-    setDob('')
-  }
-
   if (!result) {
     return (
       <form className="calc reading-form" onSubmit={onSubmit} noValidate aria-label="Free reading" data-clarity-mask="True">
@@ -220,11 +214,6 @@ export function FreeReading() {
         )}
       </section>
 
-      <details className="moolank-working">
-        <summary>How your numbers were worked out</summary>
-        <p className="hint">Moolank: {numbers.moolank.working}<br />Bhagyank: {numbers.bhagyank.working}<br />Personal year: {numbers.personalYear.working}<br />This month: {numbers.personalMonth.working}</p>
-      </details>
-
       {canAsk && (
         <section className="reading__ask" aria-labelledby="ask-h">
           <h3 id="ask-h">Ask about your life</h3>
@@ -247,7 +236,10 @@ export function FreeReading() {
             <div className="turn__a">
               <p>{t.answer}</p>
               {t.step && <p className="turn__step"><strong>This week:</strong> {t.step}</p>}
-              {!t.typed && t.expert && <p className="hint">{t.expert}</p>}
+              <div className="turn__expert">
+                {t.expert && <p>{t.expert}</p>}
+                <ButtonLink to="/consultation/request?service=numerology" arrow>Book a consultation</ButtonLink>
+              </div>
             </div>
           )}
         </div>
@@ -267,7 +259,6 @@ export function FreeReading() {
         <section className="expert-card" aria-labelledby="expert-h">
           <PhoneCall size={22} aria-hidden="true" />
           <h3 id="expert-h">Take this further with an expert</h3>
-          {typedTurn?.expert && <p>{typedTurn.expert}</p>}
           <p>Your reading shows the themes. On a one-to-one voice call, an Ankiro numerology expert looks at your full situation and tells you what to do, how and when.</p>
           <div className="cluster">
             <ButtonLink to="/consultation/request?service=numerology" arrow>Talk to an expert</ButtonLink>
@@ -276,7 +267,6 @@ export function FreeReading() {
         </section>
       )}
 
-      <p className="hint reading__note">This reading is written by AI from your numbers, as a starting point for reflection. <button type="button" className="linkish" onClick={startOver}>Start again</button></p>
     </div>
   )
 }

@@ -135,11 +135,6 @@ export function MoolankCalculator({ onResult, foldForm = false }: { onResult?: (
                 {weekly.issue.post && <a className="moolank-week__post" href={weekly.issue.post} target="_blank" rel="noopener noreferrer">See this week’s post on Instagram</a>}
               </section>
             )}
-            <details className="moolank-working">
-              <summary>How this was calculated</summary>
-              <p className="calc-line" aria-label="Calculation">{result.moolank.explanation}</p>
-              <p className="hint">Your Moolank is the day of the month you were born, with its digits added together until one digit is left.</p>
-            </details>
             <ButtonLink to="/consultation/request?service=numerology" variant="dark" arrow>Book a numerology consultation</ButtonLink>
           </div>
         )}

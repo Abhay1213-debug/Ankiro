@@ -238,6 +238,7 @@
 .expert-card p { margin: 0; color: var(--on-dark); }
 .expert-card .btn--ghost { color: var(--ivory); border-color: rgb(246 244 236 / 0.4); }
 .expert-card .btn--ghost:hover { background: var(--ivory); color: var(--espresso); }
-.reading__note { margin: 0; }
-.linkish { background: none; border: 0; padding: 0; font: inherit; color: var(--gold-ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 @media (max-width: 480px) { .reading__digit { font-size: 2.1rem; } .reading__num { padding: var(--space-2) 4px; } }
+.turn__expert { display: grid; gap: var(--space-2); margin-top: var(--space-2); padding-top: var(--space-3); border-top: 1px solid var(--line-gold); }
+.turn__expert p { color: var(--espresso); font-weight: 600; }
+.turn__expert .btn { justify-self: start; }
