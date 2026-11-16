@@ -3,7 +3,7 @@
  * Used by the free reading. The key is a server setting (GEMINI_API_KEY) and never reaches the browser.
  *
  * Each call is stateless (store: false): Google keeps no conversation for us, and we send only what the answer needs.
- * If the main model is busy or over its free quota, the call is retried once on the lighter model.
+ * The light model is used for speed; if it is busy or over its free quota, the call is retried once on the larger one.
  */
 
 export interface AiConfig { apiKey: string; models: string[] }
@@ -24,8 +24,9 @@ const RETRY_ON = new Set([404, 429, 500, 502, 503, 504])
 export function aiConfig(env: Record<string, string | undefined> = process.env): AiConfig | null {
   const apiKey = env.GEMINI_API_KEY?.trim()
   if (!apiKey) return null
-  const main = env.GEMINI_MODEL?.trim() || 'gemini-3.8-flash'
-  const models = [...new Set([main, 'gemini-3.5-flash-lite'])]
+  // the light model answers in a few seconds; the larger one is the backup when it is busy
+  const main = env.GEMINI_MODEL?.trim() || 'gemini-3.5-flash-lite'
+  const models = [...new Set([main, 'gemini-3.8-flash'])]
   return { apiKey, models }
 }
 

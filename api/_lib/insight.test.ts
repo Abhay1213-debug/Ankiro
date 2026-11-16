@@ -94,7 +94,7 @@ describe('Gemini connection', () => {
     expect(parseJson('no json')).toBeNull()
   })
 
-  it('sends a stateless request with the key in a header, and falls back to the lighter model when busy', async () => {
+  it('sends a stateless request with the key in a header, and falls back to the second model when busy', async () => {
     const fetchFn = vi.fn()
       .mockResolvedValueOnce(new Response('quota', { status: 429 }))
       .mockResolvedValueOnce(new Response(JSON.stringify({ steps: [{ type: 'model_output', content: [{ text: '{"ok":true}' }] }] }), { status: 200 }))
