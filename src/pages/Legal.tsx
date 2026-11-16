@@ -40,7 +40,6 @@ export function Privacy() {
 
       <h2>What we handle, and when</h2>
       <ul>
-        <li><strong>Free Moolank insight:</strong> your date of birth is worked out in your browser only. It is not stored or sent to us.</li>
         <li><strong>How the website is used:</strong> we use an analytics tool, Microsoft Clarity, to see which pages are visited and where visitors tap or scroll, so we can improve the site. See “Cookies and tracking” below.</li>
         <li><strong>Booking a consultation:</strong> your name, email address, phone number, date of birth, preferred language, what you would like guidance on, and the consultation and time you choose. We keep these in our booking database so our team and your expert can prepare and hold your session.</li>
         <li><strong>Messages to us:</strong> anything you write to us on WhatsApp or email, including through the “Get in touch” button. The button only opens your own app with a message ready; nothing is sent until you press send.</li>
