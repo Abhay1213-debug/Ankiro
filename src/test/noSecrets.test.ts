@@ -11,6 +11,8 @@ const ROOT = process.cwd()
 const SKIP_DIRS = new Set(['node_modules', 'dist', '.git', '.claude'])
 // The only files allowed to mention these words: the validator that detects them, and its tests.
 const ALLOW_WORDS = new Set(['src/lib/supabaseConfig.ts', 'src/lib/supabaseConfig.test.ts', 'src/lib/supabase.test.ts', 'src/test/noSecrets.test.ts', 'tools/check-live-setup/checks.mjs', 'tools/check-live-setup/checks.test.mjs'])
+// The bookings table grant names the database role itself (a role name, not a key), so that one word is allowed in these two files only.
+const ROLE_NAME_FILES = new Set(['supabase/bookings/0700_bookings.sql', 'src/test/bookingsSql.test.ts'])
 const TEXT_EXT = /\.(ts|tsx|js|jsx|json|md|html|css|svg|txt|sql|toml|yml|yaml|example|env)$|^\.env/i
 
 function walk(dir: string, out: string[] = []): string[] {
@@ -46,6 +48,7 @@ describe('no privileged credentials in the repository', () => {
     it(`contains no ${label}`, () => {
       const hits = files
         .filter((f) => !(allowedInDetectors && ALLOW_WORDS.has(f.rel)) && !f.rel.endsWith('noSecrets.test.ts'))
+        .filter((f) => !(label === 'service-role identifier' && ROLE_NAME_FILES.has(f.rel)))
         .filter((f) => re.test(f.text))
         .map((f) => f.rel)
       expect(hits).toEqual([])

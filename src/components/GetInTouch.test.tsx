@@ -25,9 +25,9 @@ describe('contact message and link builders', () => {
     const subject = contactSubject({ page: 'Palmistry' })
     expect(subject).toBe('Ankiro website: question about Palmistry')
     const mail = mailtoUrl(subject, 'Line one\nLine two')
-    expect(mail).toMatch(/^mailto:abhayprabhakar1213@gmail\.com\?subject=/)
+    expect(mail).toMatch(/^mailto:ankiro\.in@gmail\.com\?subject=/)
     expect(mail).toContain('body=Line%20one%0ALine%20two')
-    expect(gmailComposeUrl(subject, 'x')).toMatch(/^https:\/\/mail\.google\.com\/mail\/\?view=cm&fs=1&to=abhayprabhakar1213%40gmail\.com&su=/)
+    expect(gmailComposeUrl(subject, 'x')).toMatch(/^https:\/\/mail\.google\.com\/mail\/\?view=cm&fs=1&to=ankiro\.in%40gmail\.com&su=/)
   })
 })
 
@@ -50,7 +50,7 @@ describe('<GetInTouch />', () => {
     await user.click(screen.getByRole('button', { name: /get in touch/i }))
     const panel = screen.getByRole('dialog', { name: /get in touch/i })
     expect(within(panel).getByText('+91 87952 72576')).toBeInTheDocument()
-    expect(within(panel).getByText('abhayprabhakar1213@gmail.com')).toBeInTheDocument()
+    expect(within(panel).getByText('ankiro.in@gmail.com')).toBeInTheDocument()
     const wa = within(panel).getByRole('link', { name: /whatsapp/i })
     expect(wa.getAttribute('href')).toMatch(/^https:\/\/wa\.me\/918795272576\?text=/)
     expect(decodeURIComponent(wa.getAttribute('href')!)).toMatch(/connecting with you through the Ankiro website \(I was looking at: Numerology, \/services\/numerology\)/)
@@ -59,7 +59,7 @@ describe('<GetInTouch />', () => {
     const gm = within(panel).getByRole('link', { name: /gmail/i })
     expect(gm.getAttribute('href')).toMatch(/^https:\/\/mail\.google\.com\/mail\/\?view=cm/)
     expect(decodeURIComponent(gm.getAttribute('href')!)).toContain('Ankiro website: question about Numerology')
-    expect(within(panel).getByRole('link', { name: /another email app/i }).getAttribute('href')).toMatch(/^mailto:abhayprabhakar1213@gmail\.com\?/)
+    expect(within(panel).getByRole('link', { name: /another email app/i }).getAttribute('href')).toMatch(/^mailto:ankiro\.in@gmail\.com\?/)
   })
 
   it('closes with Escape and with the close button, and returns focus to the button', async () => {

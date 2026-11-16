@@ -9,10 +9,10 @@ export const siteConfig = {
   /** The brand name. VITE_BRAND_NAME overrides it without touching code. */
   brandName: (env.VITE_BRAND_NAME as string | undefined)?.trim() || 'Ankiro',
   tagline: (env.VITE_BRAND_TAGLINE as string | undefined)?.trim() || 'Where your numbers find their voice',
-  /** Public contact email (the owner's mailbox until a branded address exists). VITE_CONTACT_EMAIL overrides it; set it to "none" to switch email contact off. */
+  /** Public contact email (Ankiro's own mailbox). VITE_CONTACT_EMAIL overrides it; set it to "none" to switch email contact off. */
   contactEmail: (() => {
     const v = ((env.VITE_CONTACT_EMAIL as string | undefined) ?? '').trim()
-    return v.toLowerCase() === 'none' ? '' : v || 'abhayprabhakar1213@gmail.com'
+    return v.toLowerCase() === 'none' ? '' : v || 'ankiro.in@gmail.com'
   })(),
 } as const
 

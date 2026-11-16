@@ -21,7 +21,7 @@ describe('launch content (accounts switched off, as at launch)', () => {
     }
     page('/privacy')
     expect(mainText()).toMatch(/Ankiro is run by Abhay Prabhakar \(founder\), Gurugram, India/)
-    expect(mainText()).toMatch(/abhayprabhakar1213@gmail\.com/)
+    expect(mainText()).toMatch(/ankiro\.in@gmail\.com/)
     expect(mainText()).toMatch(/\+91 87952 72576/)
   })
 
@@ -71,7 +71,7 @@ describe('launch content (accounts switched off, as at launch)', () => {
   it('the footer carries the contact details and the payment link', () => {
     page('/')
     const footer = screen.getByRole('contentinfo')
-    expect(footer).toHaveTextContent('abhayprabhakar1213@gmail.com')
+    expect(footer).toHaveTextContent('ankiro.in@gmail.com')
     expect(footer).toHaveTextContent('+91 87952 72576')
     expect(footer.querySelector('a[href="/payment"]')).not.toBeNull()
   })
