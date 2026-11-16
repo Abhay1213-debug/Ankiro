@@ -57,9 +57,21 @@ export function parseJson(text: string): unknown | null {
   }
 }
 
-export function geminiCaller(cfg: AiConfig, fetchFn: typeof fetch = fetch, timeoutMs = 25_000): AiCall {
+/**
+ * Tries the fast model, then the fast model again after a short pause (Google's free tier often answers "high demand"
+ * for a moment), then the larger model, all within one overall time budget so a visitor never waits too long.
+ */
+export function geminiCaller(cfg: AiConfig, fetchFn: typeof fetch = fetch, opts: { budgetMs?: number; attemptMs?: number; pauseMs?: number } = {}): AiCall {
+  const { budgetMs = 22_000, attemptMs = 12_000, pauseMs = 800 } = opts
+  const [fast, ...rest] = cfg.models
+  const plan = [fast, fast, ...rest]
   return async ({ system, input, schema, maxTokens = 2048 }) => {
-    for (const model of cfg.models) {
+    const deadline = Date.now() + budgetMs
+    for (let i = 0; i < plan.length; i++) {
+      const model = plan[i]
+      const left = deadline - Date.now()
+      if (left < 2_000) break
+      if (i === 1 && pauseMs) await new Promise((r) => setTimeout(r, pauseMs))
       const res = await fetchFn(ENDPOINT, {
         method: 'POST',
         headers: { 'x-goog-api-key': cfg.apiKey, 'content-type': 'application/json', 'api-revision': API_REVISION },
@@ -71,7 +83,7 @@ export function geminiCaller(cfg: AiConfig, fetchFn: typeof fetch = fetch, timeo
           response_format: { type: 'text', mime_type: 'application/json', schema },
           generation_config: { max_output_tokens: maxTokens },
         }),
-        signal: AbortSignal.timeout(timeoutMs),
+        signal: AbortSignal.timeout(Math.min(attemptMs, left)),
       }).catch((e: unknown) => {
         console.error(`gemini ${model} request failed`, e)
         return null

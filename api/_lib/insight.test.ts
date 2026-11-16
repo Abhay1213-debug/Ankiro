@@ -94,17 +94,25 @@ describe('Gemini connection', () => {
     expect(parseJson('no json')).toBeNull()
   })
 
-  it('sends a stateless request with the key in a header, and falls back to the second model when busy', async () => {
-    const fetchFn = vi.fn()
-      .mockResolvedValueOnce(new Response('quota', { status: 429 }))
-      .mockResolvedValueOnce(new Response(JSON.stringify({ steps: [{ type: 'model_output', content: [{ text: '{"ok":true}' }] }] }), { status: 200 }))
-    const call = geminiCaller({ apiKey: 'k', models: ['gemini-3.8-flash', 'gemini-3.5-flash-lite'] }, fetchFn as unknown as typeof fetch)
+  it('sends a stateless request with the key in a header; on "high demand" retries the fast model, then the larger one', async () => {
+    const ok = () => new Response(JSON.stringify({ steps: [{ type: 'model_output', content: [{ text: '{"ok":true}' }] }] }), { status: 200 })
+    const busy = () => new Response('{"error":{"message":"high demand"}}', { status: 503 })
+    const fetchFn = vi.fn().mockResolvedValueOnce(busy()).mockResolvedValueOnce(busy()).mockResolvedValueOnce(ok())
+    const call = geminiCaller({ apiKey: 'k', models: ['gemini-3.5-flash-lite', 'gemini-3.8-flash'] }, fetchFn as unknown as typeof fetch, { pauseMs: 0 })
     expect(await call({ system: 's', input: 'i', schema: { type: 'object' } })).toEqual({ ok: true })
     const [url, init] = fetchFn.mock.calls[0] as [string, RequestInit]
     expect(url).toBe('https://generativelanguage.googleapis.com/v1beta/interactions')
     expect((init.headers as Record<string, string>)['x-goog-api-key']).toBe('k')
-    const sent = JSON.parse(init.body as string)
-    expect(sent).toMatchObject({ model: 'gemini-3.8-flash', store: false, system_instruction: 's', response_format: { mime_type: 'application/json' } })
-    expect(JSON.parse((fetchFn.mock.calls[1] as [string, RequestInit])[1].body as string).model).toBe('gemini-3.5-flash-lite')
+    const models = fetchFn.mock.calls.map((c) => JSON.parse((c as [string, RequestInit])[1].body as string).model)
+    expect(models).toEqual(['gemini-3.5-flash-lite', 'gemini-3.5-flash-lite', 'gemini-3.8-flash'])
+    expect(JSON.parse(init.body as string)).toMatchObject({ store: false, system_instruction: 's', response_format: { mime_type: 'application/json' } })
+  })
+
+  it('gives up within the time budget instead of keeping the visitor waiting', async () => {
+    const fetchFn = vi.fn(async (_u: string, init: RequestInit) => new Promise<Response>((_, reject) => init.signal!.addEventListener('abort', () => reject(new Error('timeout')))))
+    const call = geminiCaller({ apiKey: 'k', models: ['a', 'b'] }, fetchFn as unknown as typeof fetch, { budgetMs: 2_600, attemptMs: 300, pauseMs: 0 })
+    const t = Date.now()
+    expect(await call({ system: 's', input: 'i', schema: {} })).toBeNull()
+    expect(Date.now() - t).toBeLessThan(2_700)
   })
 })
