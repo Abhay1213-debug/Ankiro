@@ -40,7 +40,7 @@ export function Privacy() {
 
       <h2>What we handle, and when</h2>
       <ul>
-        <li><strong>Free reading:</strong> you give your name, email and date of birth. We work out your numbers from your date of birth on our server and do not store the date. We keep your name, email, your two numbers (Moolank and Bhagyank), the language you chose and how many free questions you used, so we can follow up about your reading. To write the reading and answer your questions, we send Google’s Gemini AI only your first name, your numbers, the current month and the questions you ask: never your email or date of birth. Google may use what it receives to improve its services. We also keep a scrambled (hashed) form of your internet address for a day’s limit on free readings.</li>
+        <li><strong>Free Moolank insight:</strong> your date of birth is worked out in your browser only. It is not stored or sent to us.</li>
         <li><strong>How the website is used:</strong> we use an analytics tool, Microsoft Clarity, to see which pages are visited and where visitors tap or scroll, so we can improve the site. See “Cookies and tracking” below.</li>
         <li><strong>Booking a consultation:</strong> your name, email address, phone number, date of birth, preferred language, what you would like guidance on, and the consultation and time you choose. We keep these in our booking database so our team and your expert can prepare and hold your session.</li>
         <li><strong>Messages to us:</strong> anything you write to us on WhatsApp or email, including through the “Get in touch” button. The button only opens your own app with a message ready; nothing is sent until you press send.</li>
@@ -55,15 +55,14 @@ export function Privacy() {
       </ul>
 
       <h2>Why we use it</h2>
-      <p>Only to answer you, give you your free reading and follow up about it, connect the right expert, arrange and run your consultation, and check payments. We don’t sell your information and we don’t use it for advertising.</p>
+      <p>Only to answer you, connect the right expert, arrange and run your consultation, and check payments. We don’t sell your information and we don’t use it for advertising.</p>
 
       <h2>Who else is involved</h2>
       <p>
         When you contact us on WhatsApp or email, those services (Meta and Google) carry your message under their own privacy policies.
         This website is delivered by a hosting provider, which may keep ordinary technical logs of visits.
         Website usage is measured with Microsoft Clarity, run by Microsoft (see the Microsoft Privacy Statement).
-        {' '}Bookings and free-reading details are stored with our database provider, Supabase{accounts ? ', which also runs sign-in for accounts' : ''}.
-        {' '}The free reading is written by Google’s Gemini AI under Google’s terms.
+        {' '}Bookings are stored with our database provider, Supabase{accounts ? ', which also runs sign-in for accounts' : ''}.
         {' '}Payments are processed by Dodo Payments under its own terms and privacy policy.
         {' '}Consultations are voice calls on Google Meet, a Google service.
       </p>
