@@ -1,5 +1,5 @@
 /**
- * Central site configuration: brand, contact channels, operator, session facts, payment details and the refund rule.
+ * Central site configuration: brand, contact channels, operator, session facts and the refund rule.
  * Prices live in `pricing.ts`.
  */
 
@@ -47,13 +47,6 @@ export const consultationInfo = {
 export const voiceOnly = {
   why: 'On many apps you consult an expert by chat. Typing back and forth uses up the time, and people often run out of it before they get their answer. That’s why every Ankiro consultation is a voice call.',
   short: 'Talking gets to the point faster than typing, so your whole session goes to your question.',
-} as const
-
-/** Owner's UPI details (shown on the payment page and the payment step). The QR image is only shown when it matches the UPI ID in use. */
-export const paymentConfig = {
-  upiId: 'abhayprabhakar1213@okhdfcbank',
-  payeeName: 'Abhay Prabhakar',
-  qrImage: '/images/upi-qr.jpg',
 } as const
 
 /** Refund rule supplied by the owner. */

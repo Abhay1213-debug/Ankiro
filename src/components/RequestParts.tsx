@@ -5,7 +5,7 @@ import {
   dataErrorMessage, paymentStatusLabel, paymentStatusMeaning, statusLabel,
   type DataErrorCode, type DataService, type PaymentInfo, type PaymentSettings, type RequestInfo,
 } from '../lib/data'
-import { paymentConfig, refundRule } from '../config/site'
+import { refundRule } from '../config/site'
 import { Field } from './forms'
 import { PaymentDetails } from './PaymentDetails'
 import { Notice } from './ui'
@@ -71,8 +71,8 @@ export function PaymentPanel({
   const open = ['submitted', 'awaiting_confirmation', 'confirmed'].includes(request.status)
   const hasPending = request.payments.some((p) => p.status === 'pending')
   const hasPaid = request.payments.some((p) => p.status === 'succeeded')
-  const upiId = settings.upiId.trim() || paymentConfig.upiId
-  const payeeName = settings.payeeName.trim() || paymentConfig.payeeName
+  const upiId = settings.upiId.trim()
+  const payeeName = settings.payeeName.trim()
   const configured = upiId !== ''
 
   async function submit(e: FormEvent) {

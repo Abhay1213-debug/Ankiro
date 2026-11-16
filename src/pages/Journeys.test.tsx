@@ -130,17 +130,18 @@ describe('payment reference (manual UPI)', () => {
     expect(screen.queryByLabelText(/upi transaction reference/i)).toBeNull()
   })
 
-  it('shows the owner’s UPI ID and QR code (built-in details) once a price is set, even before the admin saves settings', async () => {
+  it('has no UPI details built in: with a price set but nothing saved by an administrator, it shows none and takes no reference', async () => {
     const data = world()
     priced(data)
     const id = await seedRequest(data, ASHA)
     await mount(`/dashboard/requests/${id}`, data, ASHA, customer(ASHA))
-    expect(await screen.findByText('abhayprabhakar1213@okhdfcbank')).toBeInTheDocument()
-    expect(screen.getByAltText(/upi qr code for abhay prabhakar/i)).toHaveAttribute('src', '/images/upi-qr.jpg')
-    expect(screen.getByText(/80% of what you paid is refunded/i)).toBeInTheDocument()
+    expect(await screen.findByText(/payment instructions are being finalised/i)).toBeInTheDocument()
+    expect(document.body.textContent).not.toMatch(/okhdfcbank/)
+    expect(screen.queryByAltText(/upi qr code/i)).toBeNull()
+    expect(screen.queryByLabelText(/upi transaction reference/i)).toBeNull()
   })
 
-  it('never shows the built-in QR code next to a DIFFERENT UPI ID saved by an administrator', async () => {
+  it('shows a UPI ID saved by an administrator, and never a QR code', async () => {
     const data = world()
     priced(data)
     data.tables.settings.upi_id = 'someone.else@examplebank'

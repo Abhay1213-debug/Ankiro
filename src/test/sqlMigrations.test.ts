@@ -1033,21 +1033,14 @@ describe('six pre-migration corrections (static)', () => {
 
 
 describe('go-live scripts 70 and 71 (static)', () => {
-  const site = readFileSync(join(process.cwd(), 'src/config/site.ts'), 'utf8')
-
-  it('70 only adds the consent version and the three payment settings, with the same UPI details the website shows', () => {
+  it('70 only adds the consent version, and sets no payment details (payments go through Dodo Payments)', () => {
     const sql = read('scripts/70_go_live_settings.sql')
     const stmts = statements(sql).map((x) => stripQuoted(x).replace(/\s+/g, ' ').trim().toLowerCase())
-    expect(stmts).toHaveLength(2)
+    expect(stmts).toHaveLength(1)
     expect(stmts[0]).toMatch(/^insert into public\.consent_versions \(version\) values \(.*\) on conflict \(version\) do nothing$/)
-    expect(stmts[1]).toMatch(/^insert into public\.app_settings \(key, value\) values .* on conflict \(key\) do update set value = excluded\.value$/)
-    for (const word of ['delete', 'drop', 'truncate', 'alter', 'grant', 'revoke', 'create']) expect(stmts.join(' '), word).not.toMatch(new RegExp(`\\b${word}\\b`))
-    const upi = /upiId: '([^']+)'/.exec(site)![1]!
-    const payee = /payeeName: '([^']+)'/.exec(site)![1]!
-    expect(sql).toContain(`('upi_id',               '${upi}')`)
-    expect(sql).toContain(`('payee_name',           '${payee}')`)
-    expect(upi).toMatch(/^[A-Za-z0-9._-]{2,64}@[A-Za-z][A-Za-z0-9.-]{1,63}$/) // the database's own format check
-    expect(/'payment_instructions',\s+'([^']+)'/.exec(sql)![1]!.length).toBeLessThanOrEqual(500)
+    for (const word of ['delete', 'drop', 'truncate', 'alter', 'grant', 'revoke', 'create', 'update']) expect(stmts.join(' '), word).not.toMatch(new RegExp(`\\b${word}\\b`))
+    expect(sql).not.toMatch(/insert into public\.app_settings/i)
+    expect(sql).not.toMatch(/@ok[a-z]+bank/i) // no personal UPI ID in the project
   })
 
   it('71 only grants the owner an admin role, through the database guard that demands a verified authenticator', () => {
